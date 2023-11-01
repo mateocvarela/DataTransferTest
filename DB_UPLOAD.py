@@ -1,0 +1,57 @@
+import pandas as pd
+import pyodbc
+import csv
+import numpy as np
+from sqlalchemy import create_engine
+
+# RDS database connection settings
+server = 'localhost'
+database = 'DataTestDB'
+db_port='1433'
+username = 'master'
+password = 'master123'
+
+# List of CSV files to process
+csv_files = ['departments.csv','jobs.csv','hired_employees.csv']
+
+
+# Specify the path to your local CSV file
+#df = pd.read_csv('C:/Users/arqinfraestructura/Documents/Code_Challenge/Downloads/departments.csv',header=None, names=['id', 'departments'])
+connection_string = (
+    f'DRIVER={{ODBC Driver 17 for SQL Server}};'
+    f'SERVER={server};'
+    f'DATABASE={database};'
+    f'UID={username};'
+    f'PWD={password};'
+)
+connection = pyodbc.connect(connection_string)
+
+table_names = ['departments','jobs','employes' ]
+# Generate the SQL query to insert data into the table
+for csv_file, table_name in zip(csv_files, table_names):
+    df = pd.read_csv(f'C:/Users/arqinfraestructura/Documents/Code_Challenge/Downloads/{csv_file}', header=None)
+    if table_name == 'employes':
+        df.iloc[:, -2:] = df.iloc[:, -2:].replace([np.inf, -np.inf, np.nan], 0)
+        # Convert the last two columns (index -2 and -1) to integers
+        df.iloc[:, -2:] = df.iloc[:, -2:].apply(np.int64) 
+                # Handle empty values by replacing them with an empty string for the name column
+        df.iloc[:, 1] = df.iloc[:, 1].replace([np.nan], ['not named'])
+        
+        # Handle empty values by replacing them with a specific date or datetime for the date column
+        df.iloc[:, 2] = df.iloc[:, 2].replace([np.nan], ['2022-01-01T00:00:00Z'])
+     
+    placeholders = ', '.join(['?'] * len(df.columns))
+    insert_query = f'INSERT INTO {table_name} VALUES ({placeholders})'
+
+# Create a cursor to execute the SQL query
+    cursor = connection.cursor()
+
+# Loop through the DataFrame and insert each row into the SQL Server table
+    for _, row in df.iterrows():
+        cursor.execute(insert_query, *row)
+
+# Commit the changes to the database
+    connection.commit()
+
+# Close the database connection
+connection.close()
