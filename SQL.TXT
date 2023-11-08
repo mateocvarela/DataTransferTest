@@ -1,0 +1,18 @@
+CASE 1 SQL
+
+SELECT D.[departments],J.[job],
+	SUM(CASE WHEN DATEPART(QUARTER, hired_date) = 1 THEN 1 ELSE 0 END) AS Q1,
+    SUM(CASE WHEN DATEPART(QUARTER, hired_date) = 2 THEN 1 ELSE 0 END) AS Q2,
+    SUM(CASE WHEN DATEPART(QUARTER, hired_date) = 3 THEN 1 ELSE 0 END) AS Q3,
+    SUM(CASE WHEN DATEPART(QUARTER, hired_date) = 4 THEN 1 ELSE 0 END) AS Q4
+  FROM [DataTestDB].[dbo].[employes] as E
+
+ join [DataTestDB].[dbo].[departments] as D
+	ON(E.department_id = D.id)
+JOIN  [DataTestDB].[dbo].[jobs] as J
+	ON(E.job_id = J.job_id)
+	where YEAR (E.hired_date)=2021
+	GROUP BY D.departments, J.job
+	ORDER BY D.departments,J.job
+
+CASE 2 SQL
