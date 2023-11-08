@@ -16,3 +16,37 @@ JOIN  [DataTestDB].[dbo].[jobs] as J
 	ORDER BY D.departments,J.job
 
 CASE 2 SQL
+
+WITH DepartmentSummary AS (
+    SELECT
+        d.id,
+        d.departments,
+        COUNT(e.employee_id) AS NumEmployees
+    FROM
+        employes e
+    JOIN
+        departments d ON e.department_id = d.id
+    WHERE
+        YEAR(e.hired_date) = 2021
+    GROUP BY
+        d.id, d.departments
+)
+SELECT
+    d.id AS DepartmentID,
+    d.departments AS DepartmentName,
+    COUNT(e.employee_id) AS NumEmployeesHired
+FROM
+    employes e
+JOIN
+    departments d ON e.department_id = d.id
+WHERE
+    YEAR(e.hired_date) = 2021
+    AND e.department_id IN (
+        SELECT department_id
+        FROM DepartmentSummary
+        WHERE NumEmployees > (SELECT AVG(NumEmployees) FROM DepartmentSummary)
+    )
+GROUP BY
+    d.id, d.departments
+ORDER BY
+    NumEmployeesHired DESC;
