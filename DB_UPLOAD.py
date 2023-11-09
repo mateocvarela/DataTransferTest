@@ -3,6 +3,7 @@ import pyodbc
 import csv
 import numpy as np
 from sqlalchemy import create_engine
+import boto3
 
 # RDS database connection settings
 server = 'localhost'
@@ -13,7 +14,7 @@ password = 'master123'
 
 # List of CSV files to process
 csv_files = ['departments.csv','jobs.csv','hired_employees.csv']
-
+s3 = boto3.client('s3')
 
 # Specify the path to your local CSV file
 #df = pd.read_csv('C:/Users/arqinfraestructura/Documents/Code_Challenge/Downloads/departments.csv',header=None, names=['id', 'departments'])
@@ -38,7 +39,7 @@ for csv_file, table_name in zip(csv_files, table_names):
         df.iloc[:, 1] = df.iloc[:, 1].replace([np.nan], ['not named'])
         
         # Handle empty values by replacing them with a specific date or datetime for the date column
-        df.iloc[:, 2] = df.iloc[:, 2].replace([np.nan], ['2022-01-01T00:00:00Z'])
+        df.iloc[:, 2] = df.iloc[:, 2].replace([np.nan], ['1900-01-01T00:00:00Z'])
      
     placeholders = ', '.join(['?'] * len(df.columns))
     insert_query = f'INSERT INTO {table_name} VALUES ({placeholders})'
