@@ -55,6 +55,25 @@ This project involves processing CSV files, uploading them to an SQL Server data
 - **lambda.py:** Python script containing the Lambda function code.
 - **requirements.txt:** List of Python packages required for the Lambda function.
 
+### Using the `db_upload` API
+
+To use the `db_upload` API:
+
+1. **Endpoint:**
+   - The `db_upload` API is available at `http://localhost:5000/upload`.
+
+2. **Method:**
+   - Use the HTTP POST method to upload CSV files to the SQL Server database.
+
+3. **Payload:**
+   - Send a POST request with the CSV file as part of the payload.
+
+4. **Handling Null Data:**
+   - The API script (`db_upload.py`) handles null data and includes conditions to replace null values with appropriate default values.
+
+5. **Example Request (using curl):**
+   ```bash
+   curl -X POST -F "file=@/path/to/your/file.csv" http://localhost:5000/upload
 ## Installing Dependencies
 
 Before deploying the Lambda function, you need to install the required dependencies (libraries) locally and include them in the deployment package.
