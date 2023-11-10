@@ -30,7 +30,8 @@ This project involves processing CSV files, uploading them to an SQL Server data
 3. **IAM User Permissions:**
    - Create an IAM user with the necessary permissions to perform read and write operations in the S3 bucket.
    - Attach the required policies (e.g., AmazonS3FullAccess) to the IAM user.
-
+4. **Lambda Deployment Package:**
+   - Clone this repository to your local machine.
 ## Running the Project
 
 1. **Local Setup:**
@@ -49,4 +50,22 @@ This project involves processing CSV files, uploading them to an SQL Server data
 
 5. **Access the API:**
    - Use tools like Postman or your preferred method to make API requests to the provided endpoints.
+6. **Lambda Function Structure**
+
+- **lambda.py:** Python script containing the Lambda function code.
+- **requirements.txt:** List of Python packages required for the Lambda function.
+
+## Installing Dependencies
+
+Before deploying the Lambda function, you need to install the required dependencies (libraries) locally and include them in the deployment package.
+
+```bash
+# Navigate to the Lambda function directory
+cd path/to/lambda_function
+
+# Install dependencies locally
+pip install pandas pyodbc -t .
+
+# Create a ZIP archive for Lambda deployment
+zip -r lambda_function.zip .
 
