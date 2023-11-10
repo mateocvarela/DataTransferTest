@@ -2,49 +2,51 @@
 
 This repository contains scripts for managing data, including uploading CSV files to Amazon S3 and populating a SQL Server database. Additionally, it provides API endpoints for querying specific cases using Flask.
 
-# Scripts
-# 1. api.py
-This script is responsible for uploading a local CSV file to Amazon S3.
+# Data Processing and API Project
 
-Usage:
-bash
-python api.py /path/to/local/file.csv s3://your-s3-bucket/your-s3-key/file.csv
+This project involves processing CSV files, uploading them to an SQL Server database, and providing access to the data through a Flask API. Here are some considerations to set up the required components:
 
-# 2. db_upload.py
-This script retrieves CSV files from Amazon S3 and uploads them to a SQL Server database.
+## SQL Server Database
 
-# Prerequisites:
-SQL Server database connection settings configured in the script.
-Usage:
-bash
-python db_upload.py
-# 3. output_api.py
-This script provides Flask API endpoints for querying specific cases on the populated SQL Server database.
+1. **Database Configuration:**
+   - Make sure you have an SQL Server database instance set up.
+   - Ensure you have the necessary credentials (username and password) and connection details.
 
-Prerequisites:
-Flask installed (pip install Flask)
-API Endpoints:
-Case 1: Number of employees for each job and department in 2021 divided by quarters
+2. **Table Structure:**
+   - The project assumes the existence of three tables: `departments`, `jobs`, and `employees`. Make sure these tables are created in your SQL Server database.
 
-Endpoint: /api/case1
-Method: GET
-Case 2: List of IDs, name, and number of employees hired for each department
+3. **AWS CLI Configuration:**
+   - Install AWS CLI on your local machine.
+   - Configure AWS CLI with the necessary credentials using `aws configure`.
 
-Endpoint: /api/case2
-Method: GET
-# SQL Queries
-The sql.txt file contains SQL queries used by the Flask API for querying the database.
+## AWS S3 Bucket
 
-# Getting Started
-Clone the repository:
+1. **S3 Bucket Setup:**
+   - Create an S3 bucket to store the CSV files. In this project, the bucket is assumed to be named `config-bucket-550514509590`.
 
-git clone https://github.com/mateocvarela/DataTransferTest.git
-Navigate to the repository:
+2. **Folder Structure:**
+   - Organize your CSV files within the S3 bucket. This project assumes the CSV files are located in the `DataTests/` folder.
 
+3. **IAM User Permissions:**
+   - Create an IAM user with the necessary permissions to perform read and write operations in the S3 bucket.
+   - Attach the required policies (e.g., AmazonS3FullAccess) to the IAM user.
 
-cd your-repository
-Install dependencies:
+## Running the Project
 
-pip install -r requirements.txt
-Run the scripts as described in the individual sections above.
+1. **Local Setup:**
+   - Install the required Python packages listed in `requirements.txt` using `pip install -r requirements.txt`.
+
+2. **Database Connection:**
+   - Update the connection details in the Python scripts (`db_upload.py` and `output_api.py`) to match your SQL Server setup.
+
+3. **AWS CLI Configuration:**
+   - Make sure the AWS CLI on your local machine is configured correctly.
+
+4. **Run the Scripts:**
+   - Execute `api.py` to upload CSV data to the S3 bucket whit an api endpoint .
+   - Execute `db_upload.py` to upload CSV data to the SQL Server database.
+   - Run `outputapi.py` to start the Flask API.
+
+5. **Access the API:**
+   - Use tools like Postman or your preferred method to make API requests to the provided endpoints.
 
