@@ -1,0 +1,28 @@
+version: '3'
+services:
+  python-app:
+    build: .
+    ports:
+      - "5000:5000"
+      - "5001:5001"
+      - "5002:5002"
+    depends_on:
+      - sql-server
+
+  sql-server:
+    image: mcr.microsoft.com/mssql/server
+    environment:
+      SA_PASSWORD: "Master2023*"
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: "Express"
+      MSSQL_SA_PASSWORD: "master123"
+    ports:
+      - "1433:1433"
+    networks:
+      - my-network
+    volumes:
+      - ./sql-scripts:/docker-entrypoint-initdb.d
+
+networks:
+  my-network:
+    driver: bridge
