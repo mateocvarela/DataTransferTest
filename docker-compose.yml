@@ -16,12 +16,15 @@ services:
       ACCEPT_EULA: "Y"
       MSSQL_PID: "Express"
       MSSQL_SA_PASSWORD: "master123"
+      MSSQL_TCP_PORT: "1433"
     ports:
       - "1433:1433"
     networks:
       - my-network
-    volumes:
-      - ./sql-scripts:/docker-entrypoint-initdb.d
+    build:
+      context: .
+      dockerfile: dockerfile.sql
+      target: sql-server-builder
 
 networks:
   my-network:
