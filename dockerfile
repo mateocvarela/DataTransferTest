@@ -52,10 +52,10 @@ ENV AWS_DEFAULT_REGION=<Region>
 ENV SERVER=localhost
 ENV DATABASE=DataTestDB
 ENV UID=master
-ENV PWD=master123
+ENV PWD=Complexpasw1993*
 
 # Copy SQL script to create tables
-COPY create_tables.sql /docker-entrypoint-initdb.d/
+
 
 # CMD to run Supervisor, which will start both api.py and db_upload.py
 CMD ["/usr/bin/supervisord"]

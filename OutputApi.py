@@ -7,7 +7,7 @@ app = Flask(__name__)
 server = 'localhost'
 database = 'DataTestDB'
 username = 'master'
-password = 'master123'
+password = 'Complexpasw1993*'
 
 # Function to execute SQL queries
 def execute_query(query):

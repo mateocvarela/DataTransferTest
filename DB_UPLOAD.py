@@ -3,7 +3,7 @@ import pandas as pd
 import pyodbc
 import numpy as np
 from sqlalchemy import create_engine
-import boto3
+# import boto3
 from io import StringIO
 
 app = Flask(__name__)
@@ -15,12 +15,12 @@ def process_csv_and_upload(csv_file, table_name):
     database = 'DataTestDB'
     db_port = '1433'
     username = 'master'
-    password = 'master123'
+    password = 'Complexpasw1993*'
 
     # S3 settings
-    s3_bucket_name = 'config-bucket-550514509590'
-    s3_folder_path = 'DataTests/'
-    s3 = boto3.client('s3')
+    # s3_bucket_name = 'config-bucket-550514509590'
+    # s3_folder_path = 'DataTests/'
+    # s3 = boto3.client('s3')
 
     # Database connection
     connection_string = (
